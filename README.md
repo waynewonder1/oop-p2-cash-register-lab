@@ -2,6 +2,26 @@
 
 Now that we’ve discussed more about object oriented design philosophies and techniques like decorators we will be looking at building more complex objects. In this case we will be building a cash register object to simulate different functions of a cash register for an e-commerce site. 
 
+## What this does
+
+`CashRegister` (in [lib/cash_register.py](lib/cash_register.py)) models a simple point-of-sale register:
+
+* `CashRegister(discount=0)` — creates a register with an optional percentage discount (0-100, integer only; invalid values print `"Not valid discount"` and fall back to 0).
+* `add_item(item, price, quantity=1)` — adds `price * quantity` to the running `total`, appends `item` to `items` (once per unit of `quantity`), and records the transaction (item, price, quantity) in `previous_transactions`.
+* `apply_discount()` — applies the register's percentage discount to `total` and prints the new total. If the register has no discount (0), it prints `"There is no discount to apply."` instead.
+* `void_last_transaction()` — reverses the most recent `add_item` call: subtracts that transaction's price/quantity from `total` and removes the corresponding entries from `items`. If nothing has been added yet, it prints `"There is no transaction to void."`.
+
+```python
+from cash_register import CashRegister
+
+register = CashRegister(20)
+register.add_item("macbook air", 1000)
+register.apply_discount()
+# After the discount, the total comes to $800.
+```
+
+Run the test suite with `pytest` from the project root.
+
 ## Tools & Resources
 * [GitHub Repo](https://github.com/learn-co-curriculum/oop-p2-cash-register-lab)
 * [Python Classes](https://docs.python.org/3/tutorial/classes.html)
